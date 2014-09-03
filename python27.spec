@@ -16,7 +16,7 @@
 
 #  Define Constants
 %define name python27
-%define version 2.7.6
+%define version 2.7.8
 %define libvers 2.7
 %define release 1
 %define __prefix /usr
@@ -175,6 +175,12 @@ formats.
 %endif
 
 %changelog
+* Wed Sep 03 2014 Brandon Evans <brandon.evans@gmail.com> [2.7.8-1]
+- Updated to 2.7.8
+- Removed 'lib-dynload' and 'lib2to3/tests/data' from mainpkg.files
+  find command to remove 'File listed twice' RPM build error 
+- Added  /usr/share/man/man1/python2.7.1.gz to mainpkg.files
+
 * Mon Apr 14 2014 Cornfeedhobo <cornfeedhobo@fuzzlabs.org> [2.7.6-1]
 - Updated to 2.7.6
 - Fixed abi dependancy notice
@@ -332,6 +338,8 @@ cp -a Tools $RPM_BUILD_ROOT%{__prefix}/%{libdirname}/python%{libvers}
 #  MAKE FILE LISTS
 rm -f mainpkg.files
 find "$RPM_BUILD_ROOT""%{__prefix}"/%{libdirname}/python%{libvers} -type f |
+        grep -v '/lib-dynload' |
+        grep -v '/lib2to3/tests/data' |
         sed "s|^${RPM_BUILD_ROOT}|/|" | grep -v -e '_tkinter.so$' >mainpkg.files
 find "$RPM_BUILD_ROOT""%{__prefix}"/bin -type f -o -type l |
         sed "s|^${RPM_BUILD_ROOT}|/|" |
@@ -340,6 +348,7 @@ find "$RPM_BUILD_ROOT""%{__prefix}"/bin -type f -o -type l |
         grep -v -e '/bin/smtpd.py%{binsuffix}$' |
         grep -v -e '/bin/idle%{binsuffix}$' >>mainpkg.files
 echo %{__prefix}/include/python%{libvers}/pyconfig.h >> mainpkg.files
+echo %{__prefix}/share/man/man1/python2.7.1.gz >> mainpkg.files
 
 %if %{include_tools}
 rm -f tools.files
@@ -397,6 +406,7 @@ rm -f mainpkg.files tools.files
 %attr(755,root,root) %dir %{__prefix}/include/python%{libvers}
 %attr(755,root,root) %dir %{__prefix}/%{libdirname}/python%{libvers}/
 %attr(755,root,root) %dir %{__prefix}/%{libdirname}/python%{libvers}/
+
 
 %if %{include_sharedlib}
 %{__prefix}/%{libdirname}/libpython*
