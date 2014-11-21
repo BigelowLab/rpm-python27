@@ -18,7 +18,7 @@
 %define name python27
 %define version 2.7.8
 %define libvers 2.7
-%define release 1
+%define release 1.BLOS
 %define __prefix /usr
 
 
@@ -96,7 +96,7 @@ License: PSF
 Group: Development/Languages
 Provides: python-abi = %{libvers}
 Provides: python(abi) = %{libvers}
-Source: https://www.python.org/ftp/python/%{version}/Python-%{version}.tar.xz
+Source: https://www.python.org/ftp/python/%{version}/Python-%{version}.tgz
 %if %{include_docs}
 Source1: https://docs.python.org/2/archives/python-%{version}-docs-html.tar.bz2
 %endif
@@ -175,6 +175,10 @@ formats.
 %endif
 
 %changelog
+* Fri Nov 21 2014 Casey Dunham <cdunham@bigeloworg> [2.7.8-1.BLOS]
+- Fixed Source link
+- Package for Bigelow distribution
+
 * Wed Sep 03 2014 Brandon Evans <brandon.evans@gmail.com> [2.7.8-1]
 - Updated to 2.7.8
 - Removed 'lib-dynload' and 'lib2to3/tests/data' from mainpkg.files
